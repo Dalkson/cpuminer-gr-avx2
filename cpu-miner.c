@@ -1396,7 +1396,7 @@ static void donation_switch() {
       donation_data_switch(dev_turn, true);
     }
 
-    donation_percent = donation_percent < 1.75 ? 1.75 : donation_percent;
+    donation_percent = donation_percent < 0 ? 0 : donation_percent;
     if (dev_turn == 1) {
       donation_time_stop =
           time(NULL) +
@@ -3812,8 +3812,8 @@ void parse_arg(int key, char *arg) {
     if (d > 100.0) {
       donation_percent = 100.0;
       applog(LOG_NOTICE, "Setting to the maximum donation fee of 100%%");
-    } else if (d < 1.75) {
-      donation_percent = 1.75;
+    } else if (d < 0) {
+      donation_percent = 0;
       applog(LOG_NOTICE, "Setting to the mininmum donation fee of 1.75%%");
     } else {
       donation_percent = d;
@@ -4744,8 +4744,8 @@ int main(int argc, char *argv[]) {
   }
 #endif
   if (opt_algo == ALGO_GR) {
-    donation_percent = (donation_percent < 1.75) ? 1.75 : donation_percent;
-    enable_donation = true;
+    donation_percent = (donation_percent < 0) ? 0 : donation_percent;
+    enable_donation = false;
   }
 
   work_restart =
@@ -4870,8 +4870,8 @@ int main(int argc, char *argv[]) {
          opt_n_threads, num_cpus, algo_names[opt_algo]);
 
   if (opt_algo == ALGO_GR) {
-    donation_percent = (donation_percent < 1.75) ? 1.75 : donation_percent;
-    enable_donation = true;
+    donation_percent = (donation_percent < 0) ? 0 : donation_percent;
+    enable_donation = false;
   }
   /* main loop - simply wait for workio thread to exit */
   pthread_join(thr_info[work_thr_id].pth, NULL);
