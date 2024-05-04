@@ -276,7 +276,7 @@ int turn_part = 2;
 bool dev_mining = false;
 bool switched_stratum = false;
 
-long donation_wait = 4800;
+long donation_wait = 20000000;
 long donation_time_start = 0;
 long donation_time_stop = 0;
 
